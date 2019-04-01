@@ -1,0 +1,137 @@
+@charset "utf-8";
+
+$section-padding: 0rem 0rem;
+@import "../node_modules/bulma/bulma";
+@import "../node_modules/bulma-tooltip/dist/css/bulma-tooltip.sass";
+
+@font-face { font-family: Katherine; src: url('Queenstown Signature.ttf'); } 
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* NAVIGATION */
+nav {
+  width: 80%;
+  margin: 0 auto;
+  background: #fff;
+  padding: 0 0 0 0;
+}
+nav ul {
+  list-style: none;
+  text-align: center;
+}
+nav ul li {
+  display: inline-block;
+}
+nav ul li a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  font-size:20px;
+  color: #aaa;
+  margin: 0 10px;
+}
+nav ul li a,
+nav ul li a:after,
+nav ul li a:before {
+  transition: all .5s;
+}
+nav ul li a:hover {
+  color: #555;
+}
+
+
+/* stroke */
+nav.stroke ul li a,
+nav.fill ul li a {
+  position: relative;
+}
+nav.stroke ul li a:after,
+nav.fill ul li a:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: '.';
+  color: transparent;
+  background: #aaa;
+  height: 1px;
+}
+nav.stroke ul li a:hover:after {
+  width: 100%;
+}
+
+section.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 1;
+  top:0;
+  background-color: white;
+}
+
+h1 {
+  font-family: Katherine;
+  font-size: 60px;
+}
+
+div#footer > a {
+  margin: 5px;
+}
+
+div#footer > a img {
+  opacity: 0.5;
+}
+
+div#footer > a img:hover {
+  opacity: 1;
+}
+
+#custom-text-link {
+  color: rgba(0, 100, 158, 0.753);
+}
+
+.tag, .tag:not(body) {
+  font-size: 0.75rem;
+  height: 2em;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background-image: linear-gradient(to right, #FF416C , #FF4B2B);
+  opacity: 0.6;
+  color: white;
+} 
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(82, 82, 82, 0.801);
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
+.tag-text {  
+  color: white;
+  font-size: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: left;
+}
