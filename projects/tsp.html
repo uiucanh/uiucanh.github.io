@@ -6,7 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Duc Anh Bui</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../lib/p5.min.js"></script>
+    <script src="../lib/p5.dom.min.js"></script>
+    <script src="../lib/ga.js"></script>
+    <script src="../lib/sketch.js"></script>
 </head>
 
 <body>
@@ -25,10 +30,10 @@
                     <!-- Navbar -->
                     <nav class="stroke" style="margin-top:-20px;">
                         <ul>
-                            <li><a href="index.html">About</a></li>
-                            <li><a href="projects.html">Projects</a></li>
-                            <li><a href="Duc Anh Bui CV.pdf">Resume</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="../index.html">About</a></li>
+                            <li><a href="../projects.html">Projects</a></li>
+                            <li><a href="../Duc Anh Bui CV.pdf">Resume</a></li>
+                            <li><a href="../contact.html">Contact</a></li>
                         </ul>
                     </nav>
                     <!-- <hr class="is-marginless"> -->
@@ -38,60 +43,101 @@
     </section>
 
     <!-- Contents -->
-    <form action="https://postmail.invotes.com/send" method="post" id="email_form">
-        <div class="container" style="padding-top:80px; padding-bottom:80px;">
-            <div class="columns is-8 is-offset-2 has-text-centered" style="margin-bottom:50px;">
-                <div class="column">
-                    <p class="title">Want to chat? Contact me by filling this form below:</p>
+    <section style="padding-top:50px; padding-bottom:80px;">
+        <div class="columns is-centered">
+            <div class="column is-4">
+                <p class="title has-text-centered">TSP-Gen Algorithm</p>
+                <br>
+                <p class="subtitle">
+                    This is an implementation of 
+                    <a href="https://en.wikipedia.org/wiki/Genetic_algorithm">genetic algorithm</a> on the 
+                    <a href="https://en.wikipedia.org/wiki/Travelling_salesman_problem">Travelling Salesman Problem</a> 
+                    using <a href="https://p5js.org/">p5.js</a>.
+                    <br>
+                    In short, the TSP is about finding the shortest path that visits all the points.
+                    The top graph shows the best possible path found across all generations. The bottom
+                    graph shows the best path found within the current generation.</p>
+            </div>
+        </div>
+    </section>
+    <div class="container" style="padding-bottom:80px;">
+        <div class="columns is-centered">
+            <div class="column is-4 is-offset-1">
+                <div id="sketch-holder">
+                    <!-- Our sketch will go here! -->
                 </div>
             </div>
-            <div class="columns column is-6 is-offset-3">
-                <div class="column is-12">
-                    <div class="field">
-                        <label class="label">Name</label>
-                        <div class="control">
-                            <input class="input" maxlength="100" type="text" name="name">
+            <div class="column is-4">
+                <div class="columns">
+                    <div class="column is-5">
+                        <form id="setForm">
+                            Generations per second:
+                    </div>
+                    <div class="column is-3">
+                        <input type="range" id="fps-slider" min="1" max="60" value="30">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-5">
+                        Current generation:
+                    </div>
+                    <div class="column is-3">
+                        <div class="num-gen">
+                            <p>0</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="columns column is-6 is-offset-3">
-                <div class="column is-12">
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control">
-                            <input class="input" type="email" name="email">
+
+                <div class="columns">
+                    <div class="column is-5">
+                        Best fitness:
+                    </div>
+                    <div class="column is-3">
+                        <div class="best-fitness">
+                            <p>0</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="columns column is-6 is-offset-3">
-                <div class="column is-12">
-                    <div class="field">
-                        <label class="label">Subject</label>
-                        <div class="control">
-                            <input class="input" maxlength="100" type="text" name="subject">
-                        </div>
+
+                <div class="columns">
+                    <div class="column is-5">
+                        <form id="setForm">
+                            Number of cities:
+                    </div>
+                    <div class="column is-3">
+                        <input type="number" id="nCities">
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="columns column is-6 is-offset-3">
-                <div class="column is-12">
-                    <div class="field">
-                        <label class="label">Message</label>
-                        <div class="control">
-                            <textarea class="textarea" name="message"></textarea>
-                        </div>
+
+                <div class="columns">
+                    <div class="column is-5">
+                        <form id="setForm">
+                            Population size:
+                    </div>
+                    <div class="column is-3">
+                        <input type="number" id="nPop" min="1">
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="columns column is-6 is-offset-3 is-centered">
-                <div class="control">
-                    <input class="button is-link is-outlined" id="submit_form" type="submit" value="Submit">
+
+                <div class="columns">
+                    <div class="column is-5">
+                        <form id="setForm">
+                            Maximum number of generations:
+                    </div>
+                    <div class="column is-3">
+                        <input type="number" id="nGenLimit" value="100">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </form>
+
+    </div>
+
     <footer>
         <div id="footer-wrapper">
             <div class="column is-8 is-offset-2 has-text-centered">
@@ -123,71 +169,37 @@
 </body>
 
 <script>
-    //update this with your js_form selector
-    var form_id_js = "email_form";
-
-    var data_js = {
-        "access_token": "jh0yir67fe3rgeux8igjk24t"
+    window.onload = function () {
+        document.getElementById('nCities').value = totalCities;
+        document.getElementById('nPop').value = populationSize;
     };
 
-    function js_onSuccess() {
-        // remove this to avoid redirect
-        window.location.replace("thankyou.html");
-    }
-
-    function js_onError(error) {
-        // remove this to avoid redirect
-        alert("An error occured, please try again!")
-        window.location = window.location.pathname + "?message=Email+could+not+be+sent.&isError=1";
-    }
-
-    var sendButton = document.getElementById("submit_form");
-
-    function js_send() {
-        sendButton.value = 'Sending…';
-        sendButton.disabled = true;
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
-            if (request.readyState == 4 && request.status == 200) {
-                js_onSuccess();
-            } else
-                if (request.readyState == 4) {
-                    js_onError(request.response);
-                }
-        };
-
-        var name = document.querySelector("#" + form_id_js + " [name='name']").value;
-        var email = document.querySelector("#" + form_id_js + " [name='email']").value;
-        var subject = document.querySelector("#" + form_id_js + " [name='subject']").value;
-        var message = document.querySelector("#" + form_id_js + " [name='message']").value;
-        var title = "From " + name + ", " + email + ", " + subject;
-        data_js['subject'] = title;
-        data_js['text'] = message;
-        var params = toParams(data_js);
-
-        request.open("POST", "https://postmail.invotes.com/send", true);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        request.send(params);
-
-        return false;
-    }
-
-    sendButton.onclick = js_send;
-
-    function toParams(data_js) {
-        var form_data = [];
-        for (var key in data_js) {
-            form_data.push(encodeURIComponent(key) + "=" + encodeURIComponent(data_js[key]));
+    $('#nPop').bind('input', function () {
+        if (this.value < 1) {
+            return;
         }
-
-        return form_data.join("&");
-    }
-
-    var js_form = document.getElementById(form_id_js);
-    js_form.addEventListener("submit", function (e) {
-        e.preventDefault();
+        resetVariables($('#nCities').value, this.value);
     });
+
+    $('#nCities').bind('input', function () {
+        if (this.value < 1) {
+            return;
+        }
+        resetVariables(this.value, $('#nPop').value);
+    });
+
+    $('#nGenLimit').bind('input', function () {
+        if (this.value < 1) {
+            return;
+        }
+        genLimit = this.value;
+        // resetVariables($('#nCities').value, $('#nPop').value, this.value);
+    });
+
+    $("#fps-slider").change(function () {
+        frameRate(parseInt(this.value));
+    });
+
 </script>
 
 </html>

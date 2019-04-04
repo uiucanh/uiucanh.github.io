@@ -6,13 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Duc Anh Bui</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script type="text/javascript" src="lib/main.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="lib/p5.min.js"></script>
-    <script src="lib/p5.dom.min.js"></script>
-    <script src="lib/ga.js"></script>
-    <script src="lib/sketch.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="../lib/p5.min.js"></script>
+    <script src="../lib/p5.dom.min.js"></script>
+    <script src="../lib/ml-visual.js"></script>
+    <script src="../lib/math.min.js"></script>
+
 </head>
 
 <body>
@@ -31,10 +30,10 @@
                     <!-- Navbar -->
                     <nav class="stroke" style="margin-top:-20px;">
                         <ul>
-                            <li><a href="index.html">About</a></li>
-                            <li><a href="projects.html">Projects</a></li>
-                            <li><a href="Duc Anh Bui CV.pdf">Resume</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="../index.html">About</a></li>
+                            <li><a href="../projects.html">Projects</a></li>
+                            <li><a href="../Duc Anh Bui CV.pdf">Resume</a></li>
+                            <li><a href="../contact.html">Contact</a></li>
                         </ul>
                     </nav>
                     <!-- <hr class="is-marginless"> -->
@@ -47,96 +46,116 @@
     <section style="padding-top:50px; padding-bottom:80px;">
         <div class="columns is-centered">
             <div class="column is-4">
-                <p class="title has-text-centered">TSP-Gen Algorithm</p>
+                <p class="title has-text-centered">Logistic Regression Visualisation</p>
                 <br>
                 <p class="subtitle">
-                    This is an implementation of 
-                    <a href="https://en.wikipedia.org/wiki/Genetic_algorithm">genetic algorithm</a> on the 
-                    <a href="https://en.wikipedia.org/wiki/Travelling_salesman_problem">Travelling Salesman Problem</a> 
-                    using <a href="https://p5js.org/">p5.js</a>.
+                    This is a visualisation of
+                    <a href="https://en.wikipedia.org/wiki/Logistic_regression">Logistic Regression</a> on
+                    a 2D space with a set of random points generated using <a href="https://p5js.org/">p5.js</a>.
                     <br>
-                    In short, the TSP is about finding the shortest path that visits all the points.
-                    The top graph shows the best possible path found across all generations. The bottom
-                    graph shows the best path found within the current generation.</p>
+                    Set the options for generating data and training, then press the
+                    <span class="has-text-danger">Generate Data</span> button and
+                    <span class="has-text-info">Train</span> button.</p>
             </div>
         </div>
     </section>
+
     <div class="container" style="padding-bottom:80px;">
         <div class="columns is-centered">
-            <div class="column is-4 is-offset-1">
+            <div class="column is-6">
                 <div id="sketch-holder">
                     <!-- Our sketch will go here! -->
                 </div>
             </div>
+
             <div class="column is-4">
                 <div class="columns">
-                    <div class="column is-5">
-                        <form id="setForm">
-                            Generations per second:
+                    <div class="column is-6 has-text-left">
+                        Training Accuracy:
                     </div>
-                    <div class="column is-3">
-                        <input type="range" id="fps-slider" min="1" max="60" value="30">
-                        </form>
+                    <div class="column is-6 has-text-centered">
+                        <span id="train_acc"></span>
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-5">
-                        Current generation:
+                    <div class="column is-6 has-text-left">
+                        Cost:
                     </div>
-                    <div class="column is-3">
-                        <div class="num-gen">
-                            <p>0</p>
-                        </div>
+                    <div class="column is-6 has-text-centered">
+                        <span id="cost"></span>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="columns">
+                    <div class="column is-6 has-text-left">
+                        Number of points:
+                    </div>
+                    <div class="column is-6 has-text-centered">
+                        <input type="number" id="numPoints" min="1">
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-5">
-                        Best fitness:
+                    <div class="column is-6 has-text-left">
+                        Area of division:
                     </div>
-                    <div class="column is-3">
-                        <div class="best-fitness">
-                            <p>0</p>
-                        </div>
+                    <div class="column is-6 has-text-centered">
+                        <input type="number" id="linearDivision" min="1">
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-5">
-                        <form id="setForm">
-                            Number of cities:
+                    <div class="column is-6 has-text-left">
+                        Noise Probability:
                     </div>
-                    <div class="column is-3">
-                        <input type="number" id="nCities" class="w-75">
-                        </form>
+                    <div class="column is-6 has-text-centered">
+                        <input type="number" id="noiseProb" min="0">
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-5">
-                        <form id="setForm">
-                            Population size:
+                    <div class="column is-6">
+                        <button class="button is-danger is-outlined is-fullwidth" id="gen-data"
+                            onclick="prepGenData();">Generate Data</button>
                     </div>
-                    <div class="column is-3">
-                        <input type="number" id="nPop" class="w-75" min="1">
-                        </form>
+                </div>
+
+                <hr>
+
+                <div class="columns">
+                    <div class="column is-6 has-text-left">
+                        Number of iterations:
+                    </div>
+                    <div class="column is-6 has-text-centered">
+                        <input type="number" id="numIterations" min="1">
+                    </div>
+                </div>
+
+
+                <div class="columns">
+                    <div class="column is-6 has-text-left">
+                        Learning rate (Alpha):
+                    </div>
+                    <div class="column is-6 has-text-centered">
+                        <input type="number" id="alpha" min="0">
                     </div>
                 </div>
 
                 <div class="columns">
-                    <div class="column is-5">
-                        <form id="setForm">
-                            Maximum number of generations:
-                    </div>
-                    <div class="column is-3">
-                        <input type="number" id="nGenLimit" class="w-75" value="100">
-                        </form>
+                    <!-- <div class="column is-6">
+                        <button class="button is-danger is-outlined is-fullwidth" id="gen-data"
+                            onclick="prepGenData();">Generate Data</button>
+                    </div> -->
+                    <div class="column is-6">
+                        <button class="button is-info is-outlined is-fullwidth" id="train-data"
+                            onclick="prepTrain();">Train</button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <footer>
@@ -171,36 +190,33 @@
 
 <script>
     window.onload = function () {
-        document.getElementById('nCities').value = totalCities;
-        document.getElementById('nPop').value = populationSize;
+        document.getElementById('numPoints').value = numPoints;
+        document.getElementById('numIterations').value = NUM_ITERATIONS;
+        document.getElementById('noiseProb').value = cutOffProbability;
+        document.getElementById('linearDivision').value = LINEAR_DIVISION;
+        document.getElementById('alpha').value = ALPHA;
     };
 
-    $('#nPop').bind('input', function () {
-        if (this.value < 1) {
-            return;
+    function prepGenData() {
+        setVariables();
+        generateData();
+    }
+
+    function prepTrain() {
+        setVariables();
+        if (numPoints != data.length) {
+            generateData()
         }
-        resetVariables($('#nCities').value, this.value);
-    });
+        train();
+    }
 
-    $('#nCities').bind('input', function () {
-        if (this.value < 1) {
-            return;
-        }
-        resetVariables(this.value, $('#nPop').value);
-    });
-
-    $('#nGenLimit').bind('input', function () {
-        if (this.value < 1) {
-            return;
-        }
-        genLimit = this.value;
-        // resetVariables($('#nCities').value, $('#nPop').value, this.value);
-    });
-
-    $("#fps-slider").change(function () {
-        frameRate(parseInt(this.value));
-    });
-
+    function setVariables() {
+        numPoints = +document.getElementById('numPoints').value;
+        NUM_ITERATIONS = +document.getElementById('numIterations').value;
+        cutOffProbability = +document.getElementById('noiseProb').value;
+        LINEAR_DIVISION = +document.getElementById('linearDivision').value;
+        ALPHA = +document.getElementById('alpha').value;
+    }
 </script>
 
 </html>
